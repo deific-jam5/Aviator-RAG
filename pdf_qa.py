@@ -55,8 +55,12 @@ def store_in_vector_db(chunks):
     """Converts text chunks into embeddings and stores them in a vector database."""
     try:
         embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-        vector_db = Chroma.from_documents(documents=chunks, embedding=embedding_model, persist_directory=DB_DIRECTORY)
-        vector_db.persist()
+        # Create the vector store and persist it to the specified directory
+        vector_db = Chroma.from_documents(
+            documents=chunks, 
+            embedding=embedding_model, 
+            persist_directory=DB_DIRECTORY
+        )
         print("✅ PDF data stored in vector database!")
         return vector_db
     except Exception as e:
